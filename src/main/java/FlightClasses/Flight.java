@@ -1,6 +1,9 @@
+package FlightClasses;
+
 import PersonTypes.Airline.CabinCrewMember;
 import PersonTypes.Airline.Pilot;
 import PersonTypes.Passenger;
+import java.util.*;
 
 import java.util.ArrayList;
 
@@ -13,9 +16,9 @@ public class Flight {
     private String flightNumber;
     private String DestinationAirport;
     private String DepartureAirport;
-    private String DepartureTime;
+    private Date DepartureTime;
 
-    public Flight(Plane plane, String flightNumber, String destinationAirport, String departureAirport, String departureTime) {
+    public Flight(Plane plane, String flightNumber, String destinationAirport, String departureAirport, Date departureTime) {
         this.pilots = new ArrayList<>();
         this.cabinCrewMembers = new ArrayList<>();
         this.plane = plane;
@@ -54,7 +57,7 @@ public class Flight {
         return DepartureAirport;
     }
 
-    public String getDepartureTime() {
+    public Date getDepartureTime() {
         return DepartureTime;
     }
 
@@ -68,5 +71,6 @@ public class Flight {
 
     public void bookPassenger(Passenger passenger) {
         bookedPassengers.add(passenger);
+        passenger.setFlight(this);
     }
 }

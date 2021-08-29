@@ -1,3 +1,5 @@
+package FlightClasses;
+
 import Enums.PlaneTypes;
 
 public class Plane {

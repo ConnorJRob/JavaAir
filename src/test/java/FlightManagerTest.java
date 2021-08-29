@@ -1,21 +1,22 @@
 import Enums.PlaneTypes;
 import Enums.Rank;
 import FlightClasses.Flight;
+import FlightClasses.FlightManager;
 import FlightClasses.Plane;
 import PersonTypes.Airline.CabinCrewMember;
 import PersonTypes.Airline.Pilot;
 import PersonTypes.Passenger;
 import org.junit.Before;
 import org.junit.Test;
+import java.util.*;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 
-public class FlightTest {
+public class FlightManagerTest {
 
+    FlightManager flightManager;
     Flight flight;
     Pilot pilot1; Pilot pilot2;
     ArrayList<Pilot> pilots;
@@ -29,7 +30,7 @@ public class FlightTest {
 
     @Before
     public void before(){
-        plane = new Plane(PlaneTypes.BOEING767);
+        plane = new Plane(PlaneTypes.BOEING747);
 
         pilot1 = new Pilot("Connor", Rank.CAPTAIN, "AB123456");
         pilot2 = new Pilot("Lewis", Rank.FIRSTOFFICER, "CD123456");
@@ -48,76 +49,35 @@ public class FlightTest {
         passenger13 = new Passenger("Mike", 1, 170); passenger14 = new Passenger("November", 2, 175);
         passenger15 = new Passenger("Oscar", 2, 190);
 
-//        cabinCrewMembers.add(cabinCrewMember1); cabinCrewMembers.add(cabinCrewMember2);
-//        cabinCrewMembers.add(cabinCrewMember3); cabinCrewMembers.add(cabinCrewMember4);
         departureDate = new Date(2021, Calendar.AUGUST, 16, 12, 0, 0);
         flight = new Flight(plane, "JAV245", "ROM123", "EDI123", departureDate);
+        flight.assignPilot(pilot1); flight.assignPilot(pilot2);
+        flight.assignCabinCrew(cabinCrewMember1); flight.assignCabinCrew(cabinCrewMember2); flight.assignCabinCrew(cabinCrewMember3); flight.assignCabinCrew(cabinCrewMember4);
+        flight.bookPassenger(passenger1); flight.bookPassenger(passenger2); flight.bookPassenger(passenger3); flight.bookPassenger(passenger4); flight.bookPassenger(passenger5);
+        flight.bookPassenger(passenger6); flight.bookPassenger(passenger7); flight.bookPassenger(passenger8); flight.bookPassenger(passenger9); flight.bookPassenger(passenger10);
+        flight.bookPassenger(passenger11); flight.bookPassenger(passenger12); flight.bookPassenger(passenger13); flight.bookPassenger(passenger14); flight.bookPassenger(passenger15);
 
+        flightManager = new FlightManager(flight);
     }
 
     @Test
-    public void flightCanBeAssignedPilots(){
-        flight.assignPilot(pilot1);
-        flight.assignPilot(pilot2);
-        assertEquals(2, flight.getPilots().size());
+    public void flightManagerHasFlight(){
+        assertEquals(flight, flightManager.getFlight());
     }
 
     @Test
-    public void flightCanBeAssignedCabinCrew(){
-        flight.assignCabinCrew(cabinCrewMember1);
-        flight.assignCabinCrew(cabinCrewMember2);
-        flight.assignCabinCrew(cabinCrewMember3);
-        flight.assignCabinCrew(cabinCrewMember4);
-        assertEquals(4, flight.getCabinCrewMembers().size());
+    public void flightManagerCanCalculateIndividualBaggageAllowance(){
+        assertEquals(265.95, flightManager.calculateIndividualBaggageAllowance(),0.1);
     }
 
     @Test
-    public void flightStartsWith0Passengers(){
-        assertEquals(0, flight.getBookedPassengers().size());
+    public void flightManagerCanCalculateTotalCurrentBaggageWeight(){
+        assertEquals(2206, flightManager.CalculateTotalCurrentBaggageWeight(), 0.1);
     }
 
     @Test
-    public void flightHasAssignedPlane(){
-        assertEquals(plane, flight.getPlane());
-    }
-
-    @Test
-    public void flightHasNumber(){
-        assertEquals("JAV245", flight.getFlightNumber());
-    }
-
-    @Test
-    public void flightHasDestination(){
-        assertEquals("ROM123", flight.getDestinationAirport());
-    }
-
-    @Test
-    public void flightHasDepartureAirport(){
-        assertEquals("EDI123", flight.getDepartureAirport());
-    }
-
-    @Test
-    public void flightHasDepartureTime(){
-        assertEquals(departureDate, flight.getDepartureTime());
-    }
-
-    @Test
-    public void canBookAPassengerOntoFlight(){
-        flight.bookPassenger(passenger10);
-        assertEquals(passenger10, flight.getBookedPassengers().get(0));
-    }
-
-    @Test
-    public void passengerIsAssignedFlightWhenBookedToFlight(){
-        flight.bookPassenger(passenger1);
-        assertEquals(flight, passenger1.getFlight());
-    }
-
-    @Test
-    public void canReturnNumberOfPassengersBooked(){
-        flight.bookPassenger(passenger1); flight.bookPassenger(passenger2); flight.bookPassenger(passenger3);
-        flight.bookPassenger(passenger4); flight.bookPassenger(passenger5); flight.bookPassenger(passenger6);
-        assertEquals(6, flight.getBookedPassengers().size());
+    public void flightManagerCanCalculateRemainingBaggageAllowance(){
+        assertEquals(97871, flightManager.calculateRemainingBaggageAllowance(), 0.1);
     }
 
 }

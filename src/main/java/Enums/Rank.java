@@ -5,7 +5,7 @@ public enum Rank {
     CAPTAIN("Captain"),
     FIRSTOFFICER("First Officer"),
     PURSER("Purser"),
-    FLIGHTATTENDANT("Flight Attendant")
+    FLIGHTATTENDANT("FlightClasses.Flight Attendant")
     ;
 
     private final String rankTitle;

@@ -1,4 +1,5 @@
 import Enums.PlaneTypes;
+import FlightClasses.Plane;
 import org.junit.Before;
 import org.junit.Test;
 
